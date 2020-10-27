@@ -31,7 +31,15 @@ button {
 }
 
 aside {
-  padding: 10px;
+  font-family: sans-serif;
+  color: #383d45;
+  padding: 20px;
   margin-bottom: 20px;
-  background-color: rgb(240, 240, 240);
+  background-color: rgb(245, 245, 245);
+}
+
+ul {
+  margin-top: 15px;
+  font-family: sans-serif;
+  color: #383d45;
 }
