@@ -5,3 +5,33 @@
   padding: 30px;
   font-family: A Pompadour Sample;
 }
+
+h2 {
+  color: #383d45;
+  font-family: A Pompadour Sample;
+  font-size: 32px;
+}
+
+h3 {
+  color: #383d45;
+  font-family: A Pompadour Sample;
+  font-size: 24px;
+}
+
+button {
+  background-color: #287bff;
+  border: none;
+  color: white;
+  width: 40px;
+  background-image: url(../assets/images/search-icon.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 20px;
+  border-radius: 5px;
+}
+
+aside {
+  padding: 10px;
+  margin-bottom: 20px;
+  background-color: rgb(240, 240, 240);
+}
