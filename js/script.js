@@ -1,34 +1,23 @@
 //OpenWeather API Key = 1e3ad008e239358d0ab3741145b4b149
 //OpenWeather Endpoint for API Calls = https://api.openweathermap.org
-//Example of API call: api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=1e3ad008e239358d0ab3741145b4b149
 
 var $cityName = $("#city-name");
 var $cityTemp = $("#temperature");
 var $cityHumid = $("#humidity");
 var $cityWind = $("#wind-speed");
 var cityArray = [];
-
-$("#search-button").click(function () {
-  //local scope
-  var userInput = $("#city-input").val();
-  cityArray.push(userInput);
-  localStorage.setItem("userInput", JSON.stringify(cityArray));
-  currentWeather(userInput);
-  searchHistory();
-});
+var historyEl = $("#history");
+var historyItem = JSON.parse(localStorage.getItem("userInput"));
+console.log(historyItem);
 
 function currentWeather(city) {
-  //global scope
-  $("#city-name").empty();
+  $("#city-name").empty(); //global scope
   $("#temperature").empty();
   $("#humidity").empty();
   $("#wind-speed").empty();
   $.ajax({
     type: "GET",
-    url:
-      "https://api.openweathermap.org/data/2.5/weather?q=" +
-      city +
-      "&units=imperial&APPID=1e3ad008e239358d0ab3741145b4b149",
+    url: "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&APPID=1e3ad008e239358d0ab3741145b4b149",
     success: function (cityJSON) {
       console.log("success", cityJSON);
       $cityName.append("<h2>" + cityJSON.name + "</h2>");
@@ -39,13 +28,30 @@ function currentWeather(city) {
   });
 }
 
+$("#search-button").click(function () {
+  var userInput = $("#city-input").val(); //local scope
+  console.log(userInput);
+  cityArray.push(userInput);
+  localStorage.setItem("userInput", JSON.stringify(cityArray));
+  currentWeather(userInput);
+  searchHistory();
+});
+
 function searchHistory() {
-  var historyItem = JSON.parse(localStorage.getItem("userInput")); //later move this to global scope
-  //clear out the area I want to display the history
-  //loop through the history item. For loop or for each method would work
-  //create a button, put city name onto button, and append the button to the area I want to display the name
-  //print out a button or whatever element tag I want to use
-  //
+  historyEl.innerHTML = "";
+  if (historyItem !== null) {
+    for (i = 0; i < historyItem.length; i++) {
+      var searchItem = document.createElement("input");
+      searchItem.setAttribute("type", " text");
+      searchItem.setAttribute("readonly", "true");
+      searchItem.setAttribute("class", "form-control d-block bg-white");
+      searchItem.setAttribute("value", historyItem[i]);
+      searchItem.setAttribute("click", function () {
+        currentWeather(searchItem.value);
+      });
+      historyEl.append(searchItem);
+    }
+  }
 }
 
-//UV Index will be a separate API call
+searchHistory();
