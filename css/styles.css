@@ -2,7 +2,7 @@
   background-color: #383d45;
   color: white;
   text-align: center;
-  padding: 30px;
+  padding: 10px;
   font-family: A Pompadour Sample;
 }
 
@@ -42,10 +42,4 @@ aside {
   padding: 20px;
   margin-bottom: 20px;
   background-color: rgb(245, 245, 245);
-}
-
-ul {
-  margin-top: 15px;
-  font-family: sans-serif;
-  color: #383d45;
 }
