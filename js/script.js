@@ -10,8 +10,9 @@ var historyEl = $("#history");
 var historyItem = JSON.parse(localStorage.getItem("userInput"));
 console.log(historyItem);
 
-function currentWeather(city) {
-  $("#city-name").empty(); //global scope
+//API call
+function getWeather(city) {
+  $("#city-name").empty();
   $("#temperature").empty();
   $("#humidity").empty();
   $("#wind-speed").empty();
@@ -28,16 +29,8 @@ function currentWeather(city) {
   });
 }
 
-$("#search-button").click(function () {
-  var userInput = $("#city-input").val(); //local scope
-  console.log(userInput);
-  cityArray.push(userInput);
-  localStorage.setItem("userInput", JSON.stringify(cityArray));
-  currentWeather(userInput);
-  searchHistory();
-});
-
-function searchHistory() {
+//shows search history
+function showHistory() {
   historyEl.innerHTML = "";
   if (historyItem !== null) {
     for (i = 0; i < historyItem.length; i++) {
@@ -47,11 +40,20 @@ function searchHistory() {
       searchItem.setAttribute("class", "form-control d-block bg-white");
       searchItem.setAttribute("value", historyItem[i]);
       searchItem.setAttribute("click", function () {
-        currentWeather(searchItem.value);
+        getWeather(searchItem.value);
       });
       historyEl.append(searchItem);
     }
-  }
+  } 
 }
 
-searchHistory();
+showHistory();
+
+$("#search-button").click(function () {
+  var userInput = $("#city-input").val();
+  console.log(userInput);
+  cityArray.push(userInput);
+  localStorage.setItem("userInput", JSON.stringify(cityArray));
+  getWeather(userInput);
+  showHistory();
+});
