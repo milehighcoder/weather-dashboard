@@ -1,27 +1,37 @@
-.jumbotron {
+body{
+  font-family: sans-serif;
+}
+
+.header {
   background-color: #383d45;
-  color: white;
   text-align: center;
-  padding: 10px;
-  font-family: A Pompadour Sample;
+  color: white;
+  padding-top: 20px;
+  padding-bottom: 10px;
+}
+
+h1 {
+  font-size: 32px;
 }
 
 h2 {
   color: #383d45;
-  font-family: A Pompadour Sample;
   font-size: 32px;
 }
 
 h3 {
   color: #383d45;
-  font-family: A Pompadour Sample;
   font-size: 24px;
 }
 
 h4 {
   color: #383d45;
-  font-family: A Pompadour Sample;
   font-size: 21px;
+}
+
+main {
+  margin-top: 30px;
+  font-family: sans-serif;
 }
 
 button {
@@ -41,9 +51,18 @@ form {
 }
 
 aside {
-  font-family: sans-serif;
   color: #383d45;
   padding: 20px;
   margin-bottom: 20px;
   background-color: rgb(245, 245, 245);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+section {
+  background-color: rgb(245, 245, 245);
+  color: #383d45;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
 }
