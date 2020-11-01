@@ -1,20 +1,28 @@
-//OpenWeather API Key = 1e3ad008e239358d0ab3741145b4b149
-//OpenWeather Endpoint for API Calls = https://api.openweathermap.org
-//UV Index API = http://api.openweathermap.org/data/2.5/uvi?lat={lat}&lon={lon}&appid=1e3ad008e239358d0ab3741145b4b149
-
-var todaysDate = new Date();
-var todaysDateString = todaysDate.toLocaleDateString();
 var $cityName = $("#city-name");
 var $cityTemp = $("#temperature");
 var $cityHumid = $("#humidity");
 var $cityWind = $("#wind-speed");
 var $cityUV = $("#uv-index");
 var cityArray = [];
+var cityLat = '';
+var cityLon = '';
 var historyEl = $("#history");
 var historyItem = JSON.parse(localStorage.getItem("userInput"));
-console.log(historyItem);
+// console.log(historyItem);
 
-//API call
+$("#search-button").click(function () {
+  var userInput = $("#city-input").val();
+  // console.log(localStorage.getItem("userInput"));
+  if (localStorage.getItem("userInput") !== null) {
+    cityArray = JSON.parse(localStorage.getItem("userInput"));
+  }
+  cityArray.push(userInput);
+  localStorage.setItem("userInput", JSON.stringify(cityArray));
+  getWeather(userInput);
+  newHistory();
+});
+
+//Current City API Call
 function getWeather(city) {
   $("#city-name").empty();
   $("#temperature").empty();
@@ -29,15 +37,21 @@ function getWeather(city) {
       $cityTemp.append("Temperature: ", cityJSON.main.temp, " &deg;F");
       $cityHumid.append("Humidity: ", cityJSON.main.humidity, "%");
       $cityWind.append("Wind Speed: ", cityJSON.wind.speed, " MPH");
+      var cityLat = cityJSON.coord.lat;
+      var cityLon = cityJSON.coord.lon;
+      // console.log(cityLat);
+      // console.log(cityLon);
+      getUV(cityLat, cityLon);
     },
   });
 }
 
-function getUV() {
+// UV Index API Call
+function getUV(lat, lon) {
   $("#uv-index").empty();
   $.ajax({
     type: "GET",
-    url: "http://api.openweathermap.org/data/2.5/uvi?lat=37.75&lon=-122.37&appid=1e3ad008e239358d0ab3741145b4b149",
+    url: "http://api.openweathermap.org/data/2.5/uvi?lat=" + lat + "&lon=" + lon + "&APPID=1e3ad008e239358d0ab3741145b4b149",
     success: function (uvJSON) {
       console.log("success", uvJSON);
       $cityUV.append("UV Index: ", uvJSON.value);
@@ -50,7 +64,7 @@ function showHistory() {
     localStorage.getItem(localStorage.key("userInput"))
   );
   historyEl.innerHTML = "";
-  console.log(historyItem);
+  // console.log(historyItem);
   if (historyItem !== null) {
     for (i = 0; i < historyItem.length; i++) {
       var searchItem = document.createElement("input");
@@ -74,7 +88,7 @@ function newHistory() {
   );
   if (historyItem !== null) {
     var searchItem = document.createElement("input");
-    console.log(historyItem);
+    // console.log(historyItem);
     searchItem.setAttribute("type", " text");
     searchItem.setAttribute("readonly", "true");
     searchItem.setAttribute("class", "form-control d-block bg-white");
@@ -85,21 +99,3 @@ function newHistory() {
     historyEl.append(searchItem);
   }
 }
-
-$("#search-button").click(function () {
-  var userInput = $("#city-input").val();
-  console.log(localStorage.getItem("userInput"));
-  if (localStorage.getItem("userInput") !== null) {
-    cityArray = JSON.parse(localStorage.getItem("userInput"));
-  }
-  cityArray.push(userInput);
-  localStorage.setItem("userInput", JSON.stringify(cityArray));
-  getWeather(userInput);
-  newHistory();
-  getUV();
-});
-
-// function toLocalDate(unixTime) {
-//   var unixDate = new Date(unixTime * 1000);
-//   return unixDate.toLocaleDateString("en-US");
-// }
