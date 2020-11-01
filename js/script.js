@@ -1,3 +1,4 @@
+var m = moment().format("L");
 var $cityName = $("#city-name");
 var $cityTemp = $("#temperature");
 var $cityHumid = $("#humidity");
@@ -33,7 +34,7 @@ function getWeather(city) {
     url: "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&APPID=1e3ad008e239358d0ab3741145b4b149",
     success: function (cityJSON) {
       console.log("success", cityJSON);
-      $cityName.append("<h2>" + cityJSON.name + " " + cityJSON.dt + "</h2>");
+      $cityName.append("<h2>" + cityJSON.name + " " + m + "</h2>");
       $cityTemp.append("Temperature: ", cityJSON.main.temp, " &deg;F");
       $cityHumid.append("Humidity: ", cityJSON.main.humidity, "%");
       $cityWind.append("Wind Speed: ", cityJSON.wind.speed, " MPH");
@@ -99,3 +100,12 @@ function newHistory() {
     historyEl.append(searchItem);
   }
 }
+
+// $('searchItem').click(function() {
+//   $('p').empty();
+//   $('h3').empty();
+//   var historyInput = this.value;
+//   console.log(historyInput)
+
+// }
+// )
