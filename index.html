@@ -29,7 +29,7 @@
   <main class="container">
     <div class="row">
       <!-- Search -->
-      <aside class="col-lg-4">
+      <aside id="aside" class="col-lg-4">
         <h3>Search:</h3>
         <!-- Search Bar -->
         <div class="input-group">
@@ -42,38 +42,41 @@
         <form id="history"></form>
       </aside>
       <!-- Dashboard -->
-      <section id="section" class="col-lg-8 ">
-        <!-- City Name -->
-        <div class="row">
-          <div class="col-12">
-            <div id="city-name"></div>
-            <img id="weather-icon" src="" alt="" />
+      <section id="section" class="col-lg-8">
+        <div>
+          <!-- City Name -->
+          <div class="row">
+            <div class="col-12">
+              <div id="city-name"></div>
+            </div>
+          </div>
+          <!-- Temperature -->
+          <div class="row">
+            <div class="col-12">
+              <p id="temperature"></p>
+            </div>
+          </div>
+          <!-- Humidity -->
+          <div class="row">
+            <div class="col-12">
+              <p id="humidity"></p>
+            </div>
+          </div>
+          <!-- Wind Speed -->
+          <div class="row">
+            <div class="col-12">
+              <p id="wind-speed"></p>
+            </div>
+          </div>
+          <!-- UV Index -->
+          <div class="row">
+            <div id="uv-col" class="col-12">
+              <span id="uv-index"></span>
+              <span id="uv-number"></span>
+            </div>
           </div>
         </div>
-        <!-- Temperature -->
-        <div class="row">
-          <div class="col-12">
-            <p id="temperature"></p>
-          </div>
-        </div>
-        <!-- Humidity -->
-        <div class="row">
-          <div class="col-12">
-            <p id="humidity"></p>
-          </div>
-        </div>
-        <!-- Wind Speed -->
-        <div class="row">
-          <div class="col-12">
-            <p id="wind-speed"></p>
-          </div>
-        </div>
-        <!-- UV Index -->
-        <div class="row">
-          <div class="col-12">
-            <p id="uv-index"></p>
-          </div>
-        </div>
+
         <!-- 5-Day Forecast -->
         <div id="five-section" class="row">
           <div class="col-12">
@@ -81,12 +84,14 @@
           </div>
         </div>
         <!-- Forecast Cards -->
-        <div id='five-forecast' class="row">
-          <div id="forecast1" class="col forecast bg-primary text-white ml-3 mb-3 rounded"></div>
-          <div id='forecast2' class="col forecast bg-primary text-white ml-3 mb-3 rounded"></div>
-          <div id='forecast3' class="col forecast bg-primary text-white ml-3 mb-3 rounded"></div>
-          <div id='forecast4' class="col forecast bg-primary text-white ml-3 mb-3 rounded"></div>
-          <div id='forecast5' class="col forecast bg-primary text-white ml-3 mb-3 rounded"></div>
+        <div id='five-forecast' class="card weather-card">
+          <div class="card-body ">
+            <div id="forecast1" class="d-flex align-items-center justify-content-between"></div>
+            <div id='forecast2' class="d-flex align-items-center justify-content-between"></div>
+            <div id='forecast3' class="d-flex align-items-center justify-content-between"></div>
+            <div id='forecast4' class="d-flex align-items-center justify-content-between"></div>
+            <div id='forecast5' class="d-flex align-items-center justify-content-between"></div>
+          </div>
         </div>
       </section>
     </div>

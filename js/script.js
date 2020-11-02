@@ -1,10 +1,11 @@
+$("#section").hide();
 var m = moment().format("L");
 var $cityName = $("#city-name");
 var $cityTemp = $("#temperature");
 var $cityHumid = $("#humidity");
 var $cityWind = $("#wind-speed");
 var $cityUV = $("#uv-index");
-var $cityFive = $("#five-forecast");
+var $weatherIcon = $("#weather-icon");
 var cityArray = [];
 var cityLat = "";
 var cityLon = "";
@@ -14,6 +15,7 @@ var historyItem = JSON.parse(localStorage.getItem("userInput"));
 
 //Click gets Current Weather, UV Index, and 5-Day Forecast
 $("#search-button").click(function () {
+  $("#section").show();
   var userInput = $("#city-input").val();
   // console.log(localStorage.getItem("userInput"));
   if (localStorage.getItem("userInput") !== null) {
@@ -31,6 +33,7 @@ function getWeather(city) {
   $("#temperature").empty();
   $("#humidity").empty();
   $("#wind-speed").empty();
+  $("#weather-icon").empty();
   $.ajax({
     type: "GET",
     url:
@@ -38,14 +41,28 @@ function getWeather(city) {
       city +
       "&units=imperial&APPID=1e3ad008e239358d0ab3741145b4b149",
     success: function (cityJSON) {
+      var getFiveDayIcon = cityJSON.weather[0].icon;
+      fiveDayIcon =
+        "https://openweathermap.org/img/wn/" + getFiveDayIcon + "@2x.png";
       // console.log("success", cityJSON);
-      $cityName.append("<h2>" + cityJSON.name + " " + m + "</h2>");
-      $cityTemp.append("Temperature: ", cityJSON.main.temp, " &deg;F");
-      $cityHumid.append("Humidity: ", cityJSON.main.humidity, "%");
-      $cityWind.append("Wind Speed: ", cityJSON.wind.speed, " MPH");
+      $cityName.append(
+        "<h1>" +
+          cityJSON.name +
+          " " +
+          "&#40;" +
+          m +
+          "&#41;" +
+          "<img src=" +
+          fiveDayIcon +
+          ">" +
+          "</h1>"
+      );
+      // $weatherIcon.append("<img src=" + fiveDayIcon + ">");
+      $cityTemp.append("<b>Temperature: </b>", cityJSON.main.temp, " &deg;F");
+      $cityHumid.append("<b>Humidity: </b>", cityJSON.main.humidity, "%");
+      $cityWind.append("<b>Wind Speed: </b>", cityJSON.wind.speed, " MPH");
       var cityLat = cityJSON.coord.lat;
       var cityLon = cityJSON.coord.lon;
-      var cityFive = cityJSON.name;
       // console.log(cityFive)
       // console.log(cityLat);
       // console.log(cityLon);
@@ -57,7 +74,7 @@ function getWeather(city) {
 
 // UV Index API Call
 function getUV(lat, lon) {
-  $("#uv-index").empty();
+  $("span").empty();
   $.ajax({
     type: "GET",
     url:
@@ -68,7 +85,15 @@ function getUV(lat, lon) {
       "&APPID=1e3ad008e239358d0ab3741145b4b149",
     success: function (uvJSON) {
       // console.log("success", uvJSON);
-      $cityUV.append("UV Index: ", uvJSON.value);
+      $("#uv-index").append("<b>UV Index:</b>");
+      $("#uv-number").append(" " + uvJSON.value);
+      if (uvJSON.value >= 0 && uvJSON.value <= 2) {
+        $("#uv-number").attr("style", "background-color:green; color: white");
+      } else if (uvJSON.value >= 2 && uvJSON.value <= 5) {
+        $("#uv-number").attr("style", "background-color:#ff8c00; color: white");
+      } else {
+        $("#uv-number").attr("style", "background-color:red; color: white");
+      }
     },
   });
 }
@@ -100,10 +125,10 @@ function getFiveDay(lat, lon) {
         $("#forecast" + [i]).append(newTime);
         $("#forecast" + [i]).append("<img src=" + fiveDayIcon + ">");
         $("#forecast" + [i]).append(
-          "\nTemp: " + fiveJSON.daily[i].temp.day + " &deg;F"
+          "Temp: " + fiveJSON.daily[i].temp.day + " &deg;F" + "<br>"
         );
         $("#forecast" + [i]).append(
-          "\nHumidity: " + fiveJSON.daily[i].humidity + "%"
+          "Humidity: " + fiveJSON.daily[i].humidity + "%"
         );
       }
     },
