@@ -136,9 +136,7 @@ function getFiveDay(lat, lon) {
 }
 
 function showHistory() {
-  var historyItem = JSON.parse(
-    localStorage.getItem(localStorage.key("userInput"))
-  );
+  var historyItem = JSON.parse(localStorage.getItem(localStorage.key("userInput")));
   historyEl.innerHTML = "";
   // console.log(historyItem);
   if (historyItem !== null) {
@@ -159,9 +157,7 @@ function showHistory() {
 showHistory();
 
 function newHistory() {
-  var historyItem = JSON.parse(
-    localStorage.getItem(localStorage.key("userInput"))
-  );
+  var historyItem = JSON.parse(localStorage.getItem(localStorage.key("userInput")));
   if (historyItem !== null) {
     var searchItem = document.createElement("input");
     // console.log(historyItem);
