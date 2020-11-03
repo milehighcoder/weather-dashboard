@@ -11,9 +11,8 @@ var cityLat = "";
 var cityLon = "";
 var historyEl = $("#history");
 var historyItem = JSON.parse(localStorage.getItem("userInput"));
-// console.log(historyItem);
 
-//Click gets Current Weather, UV Index, and 5-Day Forecast
+//Search Button
 $("#search-button").click(function () {
   $("#section").show();
   var userInput = $("#city-input").val();
@@ -27,7 +26,7 @@ $("#search-button").click(function () {
   newHistory();
 });
 
-//Current City API Call
+//Current Weather API Call
 function getWeather(city) {
   $("#city-name").empty();
   $("#temperature").empty();
@@ -36,36 +35,16 @@ function getWeather(city) {
   $("#weather-icon").empty();
   $.ajax({
     type: "GET",
-    url:
-      "https://api.openweathermap.org/data/2.5/weather?q=" +
-      city +
-      "&units=imperial&APPID=1e3ad008e239358d0ab3741145b4b149",
+    url: "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&APPID=1e3ad008e239358d0ab3741145b4b149",
     success: function (cityJSON) {
       var getFiveDayIcon = cityJSON.weather[0].icon;
-      fiveDayIcon =
-        "https://openweathermap.org/img/wn/" + getFiveDayIcon + "@2x.png";
-      // console.log("success", cityJSON);
-      $cityName.append(
-        "<h1>" +
-          cityJSON.name +
-          " " +
-          "&#40;" +
-          m +
-          "&#41;" +
-          "<img src=" +
-          fiveDayIcon +
-          ">" +
-          "</h1>"
-      );
-      // $weatherIcon.append("<img src=" + fiveDayIcon + ">");
+      fiveDayIcon = "https://openweathermap.org/img/wn/" + getFiveDayIcon + "@2x.png";
+      $cityName.append("<h1>" + cityJSON.name + " " + "&#40;" + m + "&#41;" + "<img src=" + fiveDayIcon + ">" + "</h1>");
       $cityTemp.append("<b>Temperature: </b>", cityJSON.main.temp, " &deg;F");
       $cityHumid.append("<b>Humidity: </b>", cityJSON.main.humidity, "%");
       $cityWind.append("<b>Wind Speed: </b>", cityJSON.wind.speed, " MPH");
       var cityLat = cityJSON.coord.lat;
       var cityLon = cityJSON.coord.lon;
-      // console.log(cityFive)
-      // console.log(cityLat);
-      // console.log(cityLon);
       getUV(cityLat, cityLon);
       getFiveDay(cityLat, cityLon);
     },
@@ -77,14 +56,8 @@ function getUV(lat, lon) {
   $("span").empty();
   $.ajax({
     type: "GET",
-    url:
-      "https://api.openweathermap.org/data/2.5/uvi?lat=" +
-      lat +
-      "&lon=" +
-      lon +
-      "&APPID=1e3ad008e239358d0ab3741145b4b149",
+    url: "https://api.openweathermap.org/data/2.5/uvi?lat=" + lat + "&lon=" + lon + "&APPID=1e3ad008e239358d0ab3741145b4b149",
     success: function (uvJSON) {
-      // console.log("success", uvJSON);
       $("#uv-index").append("<b>UV Index:</b>");
       $("#uv-number").append(" " + uvJSON.value);
       if (uvJSON.value >= 0 && uvJSON.value <= 2) {
@@ -107,18 +80,11 @@ function getFiveDay(lat, lon) {
   $("#forecast5").empty();
   $.ajax({
     type: "GET",
-    url:
-      "https://api.openweathermap.org/data/2.5/onecall?lat=" +
-      lat +
-      "&lon=" +
-      lon +
-      "&exclude=minutely,current,hourly,alerts&units=imperial&appid=1e3ad008e239358d0ab3741145b4b149",
+    url: "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&exclude=minutely,current,hourly,alerts&units=imperial&appid=1e3ad008e239358d0ab3741145b4b149",
     success: function (fiveJSON) {
-      // console.log("success", fiveJSON);
       for (var i = 0; i < 6; i++) {
         var getFiveDayIcon = fiveJSON.daily[i].weather[0].icon;
-        fiveDayIcon =
-          "https://openweathermap.org/img/wn/" + getFiveDayIcon + "@2x.png";
+        fiveDayIcon = "https://openweathermap.org/img/wn/" + getFiveDayIcon + "@2x.png";
         var time = fiveJSON.daily[i].dt;
         var newTime = moment.unix(time).format("MM/DD/YYYY");
 
@@ -135,10 +101,10 @@ function getFiveDay(lat, lon) {
   });
 }
 
+//Shows search history list group on refresh or is empty on first visit
 function showHistory() {
   var historyItem = JSON.parse(localStorage.getItem(localStorage.key("userInput")));
   historyEl.innerHTML = "";
-  // console.log(historyItem);
   if (historyItem !== null) {
     for (i = 0; i < historyItem.length; i++) {
       var searchItem = document.createElement("input");
@@ -156,11 +122,11 @@ function showHistory() {
 
 showHistory();
 
+//Shows search history list group as the user searches for cities
 function newHistory() {
   var historyItem = JSON.parse(localStorage.getItem(localStorage.key("userInput")));
   if (historyItem !== null) {
     var searchItem = document.createElement("input");
-    // console.log(historyItem);
     searchItem.setAttribute("type", " text");
     searchItem.setAttribute("readonly", "true");
     searchItem.setAttribute("class", "form-control d-block bg-white");
