@@ -16,7 +16,6 @@ var historyItem = JSON.parse(localStorage.getItem("userInput"));
 $("#search-button").click(function () {
   $("#section").show();
   var userInput = $("#city-input").val();
-  // console.log(localStorage.getItem("userInput"));
   if (localStorage.getItem("userInput") !== null) {
     cityArray = JSON.parse(localStorage.getItem("userInput"));
   }
@@ -87,7 +86,6 @@ function getFiveDay(lat, lon) {
         fiveDayIcon = "https://openweathermap.org/img/wn/" + getFiveDayIcon + "@2x.png";
         var time = fiveJSON.daily[i].dt;
         var newTime = moment.unix(time).format("MM/DD/YYYY");
-
         $("#forecast" + [i]).append(newTime);
         $("#forecast" + [i]).append("<img src=" + fiveDayIcon + ">");
         $("#forecast" + [i]).append(
