@@ -103,7 +103,7 @@ function getFiveDay(lat, lon) {
 
 //Shows search history list group on refresh or is empty on first visit
 function showHistory() {
-  var historyItem = JSON.parse(localStorage.getItem(localStorage.key("userInput")));
+  var historyItem = JSON.parse(localStorage.getItem("userInput"));
   historyEl.innerHTML = "";
   if (historyItem !== null) {
     for (i = 0; i < historyItem.length; i++) {
