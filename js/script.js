@@ -112,7 +112,7 @@ function showHistory() {
       searchItem.setAttribute("readonly", "true");
       searchItem.setAttribute("class", "form-control d-block bg-white");
       searchItem.setAttribute("value", historyItem[i]);
-      searchItem.setAttribute("click", function () {
+      searchItem.addEventListener("click", function () {
         getWeather(searchItem.value);
       });
       historyEl.append(searchItem);
@@ -131,7 +131,7 @@ function newHistory() {
     searchItem.setAttribute("readonly", "true");
     searchItem.setAttribute("class", "form-control d-block bg-white");
     searchItem.setAttribute("value", historyItem[historyItem.length - 1]);
-    searchItem.setAttribute("click", function () {
+    searchItem.addEventListener("click", function () {
       getWeather(searchItem.value);
     });
     historyEl.append(searchItem);
